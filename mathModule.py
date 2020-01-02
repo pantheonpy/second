@@ -53,8 +53,6 @@ class DagAssistant():
         if (flag == True):
             return True
         return False
-def mytest():
-    dag=[]
-   dagA=DagAssistant()
+
 
 
