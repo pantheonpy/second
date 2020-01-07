@@ -173,10 +173,14 @@ def readFre(path):#include filename ,Relative path /superpi/**
         newDic[arrayKey[i]] = arrayValue[i]
     return newDic
 
-# path="tencent\\data.txt"
-# writePath="tencent\\"
-# MainFreFun(path,writePath,0,250)
-# MainSingleData(path,writePath,0,250)
+
+def dataProTest():
+    path="ali\\alidata.txt"
+    writePath="ali\\"
+    MainFreFun(path,writePath,0,250)
+    MainSingleData(path,writePath,0,250)
+
+dataProTest()
 
 
 

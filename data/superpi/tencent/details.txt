@@ -1,2 +1,0 @@
-标准型S4  S4.SMALL1	1核	1GB	Intel Xeon Skylake 6148(2.4 GHz)	
-0.32元/小时  包含宽带0.6元1MbMB
