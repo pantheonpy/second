@@ -56,7 +56,7 @@ def crossFun(individualX,individualY,dag):
         temp2 = individualY[2][j]
         individualX[2][j] = temp2
         individualY[2][j] = temp1
-        return individualX,individualY
+
 
 def gaIniFun(dag,typeNum,perTypeNum,taskNum):#perNum is the number of per Type VM
     mark=[0 for i in range(taskNum)]
@@ -86,22 +86,29 @@ def gaIniFun(dag,typeNum,perTypeNum,taskNum):#perNum is the number of per Type V
 
 def mutationFun(individual,dag):
     taskNum=len(dag)
-    point = ra.randint(1, taskNum - 1)
-    cout = 0
-    for i in range(0, taskNum):
-        if (myMathTool.isCanArrvie(dag, min(i, point), max(i, point)) == False):
-            cout = cout + 1
-    cout = min(0, cout - 1)
-    if (cout > 0):
-        select = ra.randint(1, cout - 1)
-        for i in range(0, taskNum):
-            if (myMathTool.isCanArrvie(dag, min(i, point), max(i, point)) == False):
-                if (select == 1):
-                    temp = individual[0][point]
-                    individual[0][point] = individual[0][i]
-                    individual[0][i] = temp
-                else:
-                    select = select - 1
+    point = ra.randint(0, taskNum - 1)
+    p=ra.randint(0,100)
+    if(p==5):
+        individual[1][point] = ra.randint(1,3)#individual[1][i]
+    if(p==10):
+        individual[2][point] = ra.randint(1, 3)  # individual[1][i]
+    # taskNum = len(dag)
+    # point = ra.randint(0, taskNum - 1)
+    # cout=0
+    # for i in range(0, taskNum):
+    #     if (myMathTool.isCanArrvie(dag, min(i, point), max(i, point)) == False):
+    #         cout=cout+1
+    # if (cout > 1):
+    #     select = ra.randint(1, cout-1)
+    #     for i in range(0, taskNum):
+    #         if (myMathTool.isCanArrvie(dag, min(i, point), max(i, point)) == False):
+    #             if (select == 1):
+    #                 temp = individual[0][point]
+    #                 individual[0][point] = individual[0][i]
+    #                 individual[0][i] = temp
+    #             else:
+    #                 select = select - 1
+
 
 
 def fitnessFun(individual,avePerf, unitPrice,deadLine,dag,taskTypeArray):
@@ -117,11 +124,11 @@ def fitnessFun(individual,avePerf, unitPrice,deadLine,dag,taskTypeArray):
         vmType=individual[1][i]-1  #index should-1
         aveTime=avePerf[vmType-1][taskType-1]
         aveCost=aveTime*unitPrice[vmType]
-        everyTaskTimes[j]=maxFinishTimeofParentFun(dag,everyTaskTimes,j,individual)+aveTime
+        everyTaskTimes[j]=maxFinishTimeofParentFun(dag=dag,cTime=everyTaskTimes,taskID=j,individual=individual)+aveTime
         everyTaskCosts[j]= aveCost
     diffrentVM=myMathTool.aryyNotSame(individual[1],individual[2])
     totalcost = 0
-    transDelay=1
+    transDelay=0
     for vm in diffrentVM:
         totalcost=totalcost+1*unitPrice[vm[0]-1]
 
@@ -151,17 +158,26 @@ def maxFinishTimeofParentFun(dag,cTime,taskID,individual):
     return max(everyTaskTimes)
 
 def selectGroupFun(group,limit,avePerf,unitPrice,deadLine,dag,taskTypeArray):
+
     newGroup = []
     temp = []
     for i in range(0,len(group)):
         score,makeSpan,cost = fitnessFun(group[i],avePerf,unitPrice,deadLine,dag,taskTypeArray)
         temp.append([score,i])
+
     for j in range(0,len(temp)):
         for i in range(0,len(temp)-j-1):
             if(temp[i][0]<temp[i+1][0]):
                 temp[i],temp[i+1]=temp[i+1],temp[i]
+
+    print("当前迭代最大适应度",temp[0][0])#第二个是在原Group中的INDEX
+    index=[]
+    if(temp[0][0]<-200):
+        print(temp)
     for i in range(0,limit):
-        newGroup.append(group[temp[i][1]])
+        index=temp[i][1]
+        tempValue=group[index]
+        newGroup.append(tempValue)
     return newGroup
 
 
@@ -174,8 +190,8 @@ def mainGAFun(dag,typeNum,perTypeNum,Iter,iniNumIndividual,avePerf,unitPrice,dea
         Group.append(tempIndividual)
     for i in range(0,Iter):
         print("迭代次数",i)
-        tempGroup=[]
-        for index in range(0,len(Group)):
+        tempGroup=Group.copy()
+        for index in range(int(iniNumIndividual/10)):
             individualX=Group[index]
             indey=ra.randint(1,len(Group)-1)
             if(indey==index):
@@ -184,28 +200,38 @@ def mainGAFun(dag,typeNum,perTypeNum,Iter,iniNumIndividual,avePerf,unitPrice,dea
             crossFun(individualX, individualY,dag)
             tempGroup.append(individualX)
             tempGroup.append(individualY)
-            pm=ra.randint(0,10)
+            pm=ra.randint(0,1000)
             if(pm==2):
                 mutationFun(individualY,dag)
-        Group=selectGroupFun(tempGroup,int((1+len(tempGroup))/2),avePerf,unitPrice,deadLine,dag,taskTypeArray)
+                mutationFun(individualX, dag)
+
+        Group=selectGroupFun(tempGroup,iniNumIndividual,avePerf,unitPrice,deadLine,dag,taskTypeArray)
+        print("当前迭代最佳方案",Group[0])
+        print(fitnessFun(Group[0], avePerf=avePerf, unitPrice=unitPrice, deadLine=deadLine, dag=dag,
+                         taskTypeArray=taskTypeArray))
     resultInd=Group[0]
     return resultInd
 
 
 
 def GATest():
+    # hua    2M-4.035  4M-8.9  8M-19.47          0.1526    0.5
+    # tencet  2M-4.20  4M-9.02 8M-20.29       0.36      0.4
+    # ali    2M-5.565   4m-12.398 8M-26.985    0.242    0.3
     path = "CbyerShake20.xml"
     dag, tt = myMathTool.getXMLtoDag(path, 20)
     taskType=[]
     for i in range(len(dag)):
         taskType.append(i%3+1)
-    avePerf=[[4.035,8.9,19.47],[4.99,12.00,26],[6,13.96,29.97]]
-    # hua 2M-4.035  4M-8.9  8M-19.47
-    # tencet  2M-4.99  4M-12.00 8M-26
-    # ali    2M-6   4m-13.96 8M-29.97
-    unitPrice=[3,3.1,3.3]
-    deadLine=70
+    avePerf=[[4.035, 8.9, 19.47],
+             [4.20, 9.02, 20.29],
+             [5.565, 12.398, 26.985]]
+
+    unitPrice=[0.5, 0.4 , 0.3]
+    deadLine=63
     taskTypeArray=taskType
-    result=mainGAFun(dag,3,5,Iter=100,iniNumIndividual=400,avePerf=avePerf,unitPrice=unitPrice,deadLine=deadLine,taskTypeArray=taskTypeArray)
+    result=mainGAFun(dag,3,10,Iter=200,iniNumIndividual=2000,avePerf=avePerf,unitPrice=unitPrice,deadLine=deadLine,taskTypeArray=taskTypeArray)
     print(result)
     print(fitnessFun(result,avePerf=avePerf,unitPrice=unitPrice,deadLine=deadLine,dag=dag,taskTypeArray=taskTypeArray))
+GATest()
+

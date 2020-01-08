@@ -1,0 +1,1 @@
+ecs.xn4.small	1 vCPU	1 GiB	-	Intel Xeon E5-2682v4 / Intel Xeon(Skylake) Platinum 8163	2.5 GHz	0.5 Gbps	5 Íò PPS	-	-	·ñ	£¤ 0.16 /        0.242/Ð¡Ê±

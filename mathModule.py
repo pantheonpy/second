@@ -67,24 +67,55 @@ def getChildren(tasknow,dag):
             Children.append(i)
     return Children
 
+def getCPave(dag,tasknow,tasktypeArr):
+    tasksize=[]
+    for i in range(len(dag)):
+        taskType=tasktypeArr[i]
+        if (taskType == 1):
+            tasksize.append(4)
+        if (taskType == 2):
+            tasksize.append(9)
+        if (taskType == 3):
+            tasksize.append(20)
+    size,path=diguiCP(tasknow,dag,tasksize)
+    path.reverse()
+    return path
 
-def getCriPath(dag,tasknow,tasksize):#路径的任务规模最大
-    CP=[tasknow]
-    now=tasknow
-    while(True):
-        if (isEnd(now, dag)):
-            break
+def diguiCP(taskNow,dag,taskSizeArr):
+    if(isEnd(taskNow,dag=dag)):
+        CP = []
+        CP.append(taskNow)
+        return taskSizeArr[taskNow],CP
+    else:
+        children=getChildren(taskNow,dag)
+        temps=0
+        tempc=[]
+        for i in children:
+            tempSize,tempCP=diguiCP(i,dag,taskSizeArr)
+            if(tempSize>temps):
+                temps=tempSize
+                tempc=tempCP
+        path=tempc.copy()
+        path.append(taskNow)
+        return temps+taskSizeArr[taskNow],path
 
-        temp=0
-        numtask=0
-        for j in range(0,len(dag)):
-            if(dag[now][j]==1):
-                if(tasksize[j]>temp):
-                    temp=tasksize[j]
-                    numtask=j
-        now=numtask
-        CP.append(numtask)
-    return  CP
+# def getCriPath(dag,tasknow,tasksize):#路径的任务规模最大
+#     CP=[tasknow]
+#     now=tasknow
+#     while(True):
+#         if (isEnd(now, dag)):
+#             break
+#
+#         temp=0
+#         numtask=0
+#         for j in range(0,len(dag)):
+#             if(dag[now][j]==1):
+#                 if(tasksize[j]>temp):
+#                     temp=tasksize[j]
+#                     numtask=j
+#         now=numtask
+#         CP.append(numtask)
+#     return  CP
 
 def isCanArrvie(dag,start,end):
     if(start==end):
@@ -153,17 +184,17 @@ def xLablePro(oDic1,oDic2):
 
 
 def fakeDate():
-    ten2=5
+    ten2=4.2
     ten2a=[]
-    ten4=12
+    ten4=9.0
     ten4a = []
-    ten8=26
+    ten8=20.1
     ten8a = []
-    ali2=6
+    ali2=5.65
     ali2a=[]
-    ali4=14
+    ali4=12.4
     ali4a = []
-    ali8=30
+    ali8=26.985
     ali8a = []
     for i in range(240):
         p=ra.uniform(0.95,1.05)
@@ -237,17 +268,23 @@ def fakeDate():
         f.write(value + '\n')
     f.close()
 
-def getAVE(filename):
-    #hua 2M-4.035  4M-8.9  8M-19.47
-    #tencet  2M-4.99  4M-12.00 8M-26
-    #ali    2M-6   4m-13.96 8M-29.97
-    py=mydp.readSingleDate(filename,0,240)
-    total=0
-    for i in py:
-        total=total+i
-    print(total/len(py))
 
 
 
 
+
+
+
+# def test():
+#     dag=[[0,1,1,1,0,0,0],
+#          [0,0,0,0,1,0,0],
+#          [0,0,0,0,0,1,0],
+#          [0,0,0,0,0,0,1],
+#          [0,0,0,0,0,0,1],
+#          [0,0,0,0,0,0,1],
+#          [0,0,0,0,0,0,0]]
+#     tasksizeA=[1,1,1,3,1,1,3]
+#     y=getCPave(dag,0,tasksizeA)
+#     print(y)
+# test()
 

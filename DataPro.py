@@ -175,12 +175,48 @@ def readFre(path):#include filename ,Relative path /superpi/**
 
 
 def dataProTest():
-    path="ali\\alidata.txt"
-    writePath="ali\\"
+    path="huawei\\hwdata.txt"
+    writePath="huawei\\"
     MainFreFun(path,writePath,0,250)
     MainSingleData(path,writePath,0,250)
 
-dataProTest()
+def getAVE(filename):
+    #hua 2M-4.035  4M-8.9  8M-19.47          0.1526    0.5
+    #tencet  2M-4.20  4M-9.02 8M-20.29       0.36      0.4
+    #ali    2M-5.565   4m-12.398 8M-26.985    0.242    0.25
+    py=readSingleDate(filename,0,250)
+    total=0
+    for i in py:
+        total=total+i
+    return total/len(py)
+
+def getVMDATAS():
+    aveALI2M=getAVE("ali\\pi_2M.txt")
+    aveALI4M = getAVE("ali\\pi_4M.txt")
+    aveALI8M = getAVE("ali\\pi_8M.txt")
+    aveTX2M=getAVE("tencent\\pi_2M.txt")
+    aveTX4M = getAVE("tencent\\pi_4M.txt")
+    aveTX8M = getAVE("tencent\\pi_8M.txt")
+    aveHW2M=getAVE("huawei\\pi_2M.txt")
+    aveHW4M = getAVE("huawei\\pi_4M.txt")
+    aveHW8M = getAVE("huawei\\pi_8M.txt")
+    allALI2M=readSingleDate("ali\\pi_2M.txt",0,240)
+    allALI4M = readSingleDate("ali\\pi_4M.txt", 0, 240)
+    allALI8M = readSingleDate("ali\\pi_8M.txt", 0, 240)
+    allTX2M=readSingleDate("tencent\\pi_2M.txt", 0, 240)
+    allTX4M = readSingleDate("tencent\\pi_4M.txt", 0, 240)
+    allTX8M = readSingleDate("tencent\\pi_8M.txt", 0, 240)
+    allHW2M=readSingleDate("huawei\\pi_2M.txt", 0, 240)
+    allHW4M = readSingleDate("huawei\\pi_4M.txt", 0, 240)
+    allHW8M = readSingleDate("huawei\\pi_8M.txt", 0, 240)
+    VMDATA=[]
+    huawei={"pi2M":allHW2M,"pi4M":allHW4M,"pi8M":allHW8M,"avepi2M":aveHW2M,"avepi4M":aveHW4M,"avepi8M":aveHW8M,"price":0.5}
+    tenxun = {"pi2M": allTX2M, "pi4M": allTX4M, "pi8M": allTX8M, "avepi2M": aveTX2M, "avepi4M": aveTX4M,
+              "avepi8M": aveTX8M, "price": 0.4}
+    ali = {"pi2M": allALI2M, "pi4M": allALI4M, "pi8M": allALI8M, "avepi2M": aveALI2M, "avepi4M": aveALI4M,
+              "avepi8M": aveALI8M, "price": 0.25}
+    VMDATA=[huawei,tenxun,ali]
+    return VMDATA
 
 
 

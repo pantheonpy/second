@@ -31,10 +31,16 @@ def myTest():
 
 
 def drawPiTest():
-    path2 = "huawei\\pi_4M.txt"
-    data2 = mydp.readSingleDate(path2, 20, 260)
-    plt.plot(data2)
+    path1="huawei\\pi_8M.txt"
+    data1 = mydp.readSingleDate(path1, 0, 30)
+    path2 = "tencent\\pi_8M.txt"
+    data2 = mydp.readSingleDate(path2, 0, 30)
+    path3 = "ali\\pi_8M.txt"
+    data3 = mydp.readSingleDate(path3, 0, 30)
+    plt.plot(data2,color='red', label="TX",linestyle='--',marker='o')
+    plt.plot(data1, color='blue', label="HW",linestyle='--',marker='>')
+    plt.plot(data3, color='black', label="Ali", linestyle='--', marker='*')
     plt.ylabel('value')
     plt.show()
-
+drawPiTest()
 
