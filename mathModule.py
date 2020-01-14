@@ -196,31 +196,68 @@ def fakeDate():
     ali4a = []
     ali8=26.985
     ali8a = []
-    for i in range(240):
-        p=ra.uniform(0.95,1.05)
+    for i in range(150):
+        p=ra.uniform(0.98,1.02)
         temp=round(p*ten2,1)
+        ten2+=0.005
         ten2a.append(temp)
-    for i in range(240):
-        p=ra.uniform(0.95,1.05)
+    for i in range(150):
+        p=ra.uniform(0.98,1.02)
         temp=round(p*ten4,1)
+        ten4 += 0.01
         ten4a.append(temp)
-    for i in range(240):
-        p=ra.uniform(0.95,1.05)
+    for i in range(150):
+        p=ra.uniform(0.98,1.02)
         temp=round(p*ten8,1)
+        ten8+=0.02
         ten8a.append(temp)
-    for i in range(240):
-        p=ra.uniform(0.95,1.05)
+    for i in range(150):
+        p=ra.uniform(0.98,1.02)
         temp=round(p*ali2,1)
+        ali2-=0.003
         ali2a.append(temp)
-    for i in range(240):
-        p=ra.uniform(0.95,1.05)
+    for i in range(150):
+        p=ra.uniform(0.98,1.02)
         temp=round(p*ali4,1)
+        ali4 -= 0.006
         ali4a.append(temp)
-    for i in range(240):
-        p=ra.uniform(0.95,1.05)
+    for i in range(150):
+        p=ra.uniform(0.98,1.02)
         temp=round(p*ali8,1)
+        ali8 -= 0.012
         ali8a.append(temp)
-    totalpath = os.getcwd() + "\\data\\superpi\\tencent\\pi_2M"
+    for i in range(150):
+        p=ra.uniform(0.98,1.02)
+        temp=round(p*ten2,1)
+        ten2 -= 0.003
+        ten2a.append(temp)
+    for i in range(150):
+        p=ra.uniform(0.98,1.02)
+        temp=round(p*ten4,1)
+        ten4 -= 0.006
+        ten4a.append(temp)
+    for i in range(150):
+        p=ra.uniform(0.98,1.02)
+        temp=round(p*ten8,1)
+        ten8 -= 0.012
+        ten8a.append(temp)
+    for i in range(150):
+        p=ra.uniform(0.98,1.02)
+        temp=round(p*ali2,1)
+        ali2+=0.002
+        ali2a.append(temp)
+    for i in range(150):
+        p=ra.uniform(0.98,1.02)
+        temp=round(p*ali4,1)
+        ali4 += 0.005
+        ali4a.append(temp)
+    for i in range(150):
+        p=ra.uniform(0.98,1.01)
+        temp=round(p*ali8,1)
+        ali8 += 0.01
+        ali8a.append(temp)
+
+    totalpath = os.getcwd() + "\\data\\superpi\\tencent\\pi_2M.txt"
     path = totalpath
     f = open(path, 'w', encoding='utf-8')
     for i in ten2a:
@@ -228,7 +265,7 @@ def fakeDate():
         f.write(value + '\n')
     f.close()
 
-    totalpath = os.getcwd() + "\\data\\superpi\\tencent\\pi_4M"
+    totalpath = os.getcwd() + "\\data\\superpi\\tencent\\pi_4M.txt"
     path = totalpath
     f = open(path, 'w', encoding='utf-8')
     for i in ten4a:
@@ -236,7 +273,7 @@ def fakeDate():
         f.write(value + '\n')
     f.close()
 
-    totalpath = os.getcwd() + "\\data\\superpi\\tencent\\pi_8M"
+    totalpath = os.getcwd() + "\\data\\superpi\\tencent\\pi_8M.txt"
     path = totalpath
     f = open(path, 'w', encoding='utf-8')
     for i in ten8a:
@@ -244,7 +281,7 @@ def fakeDate():
         f.write(value + '\n')
     f.close()
 
-    totalpath = os.getcwd() + "\\data\\superpi\\ali\\pi_2M"
+    totalpath = os.getcwd() + "\\data\\superpi\\ali\\pi_2M.txt"
     path = totalpath
     f = open(path, 'w', encoding='utf-8')
     for i in ali2a:
@@ -252,7 +289,7 @@ def fakeDate():
         f.write(value + '\n')
     f.close()
 
-    totalpath = os.getcwd() + "\\data\\superpi\\ali\\pi_4M"
+    totalpath = os.getcwd() + "\\data\\superpi\\ali\\pi_4M.txt"
     path = totalpath
     f = open(path, 'w', encoding='utf-8')
     for i in ali4a:
@@ -260,7 +297,7 @@ def fakeDate():
         f.write(value + '\n')
     f.close()
 
-    totalpath = os.getcwd() + "\\data\\superpi\\ali\\pi_8M"
+    totalpath = os.getcwd() + "\\data\\superpi\\ali\\pi_8M.txt"
     path = totalpath
     f = open(path, 'w', encoding='utf-8')
     for i in ali8a:
@@ -272,7 +309,7 @@ def fakeDate():
 
 
 
-
+#fakeDate()
 
 
 # def test():

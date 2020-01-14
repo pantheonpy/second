@@ -14,7 +14,8 @@ def frequencyCount(t):#t is a array
         d[i]=round(d[i]/lenth,8)
     return d
 
-def readInitialFile(path,startnum,totalnum):#Relative path /superpi/**,startnum=81*len,totalnum=lenth(superpi_2M)
+def readInitialFile(path,startnum,totalnum):
+    #Relative path /superpi/**,startnum=81*len,totalnum=lenth(superpi_2M)
     #return arrary1,arrar2,arrar3  ;arrar is a set of execute time of 2m,4m,8m
     totalpath=os.getcwd()+"\\data\\superpi\\"+path
     superpi_2M=[]
@@ -209,14 +210,48 @@ def getVMDATAS():
     allHW2M=readSingleDate("huawei\\pi_2M.txt", 0, 240)
     allHW4M = readSingleDate("huawei\\pi_4M.txt", 0, 240)
     allHW8M = readSingleDate("huawei\\pi_8M.txt", 0, 240)
+    freHW2M=readFre("huawei\\fre2M.txt")
+    freHW4M = readFre("huawei\\fre4M.txt")
+    freHW8M = readFre("huawei\\fre8M.txt")
+    freAli2M=readFre("ali\\fre2M.txt")
+    freAli4M = readFre("ali\\fre4M.txt")
+    freAli8M = readFre("ali\\fre8M.txt")
+    freTX2M=readFre("tencent\\fre2M.txt")
+    freTX4M = readFre("tencent\\fre4M.txt")
+    freTX8M = readFre("tencent\\fre8M.txt")
     VMDATA=[]
-    huawei={"pi2M":allHW2M,"pi4M":allHW4M,"pi8M":allHW8M,"avepi2M":aveHW2M,"avepi4M":aveHW4M,"avepi8M":aveHW8M,"price":0.5}
+    huawei={"pi2M":allHW2M,"pi4M":allHW4M,"pi8M":allHW8M,"avepi2M":aveHW2M,
+            "avepi4M":aveHW4M,"avepi8M":aveHW8M,"price":0.5,"fre2M":freHW2M,"fre4M":freHW4M,"fre8M":freHW8M}
+
     tenxun = {"pi2M": allTX2M, "pi4M": allTX4M, "pi8M": allTX8M, "avepi2M": aveTX2M, "avepi4M": aveTX4M,
-              "avepi8M": aveTX8M, "price": 0.4}
+              "avepi8M": aveTX8M, "price": 0.4,"fre2M":freTX2M,"fre4M":freTX4M,"fre8M":freTX8M}
     ali = {"pi2M": allALI2M, "pi4M": allALI4M, "pi8M": allALI8M, "avepi2M": aveALI2M, "avepi4M": aveALI4M,
-              "avepi8M": aveALI8M, "price": 0.25}
+              "avepi8M": aveALI8M, "price": 0.25,"fre2M":freAli2M,"fre4M":freAli4M,"fre8M":freAli8M}
     VMDATA=[huawei,tenxun,ali]
     return VMDATA
 
+def doFre():
+    path2="ali\\pi_2M.txt"
+    path4 = "ali\\pi_4M.txt"
+    path8 = "ali\\pi_8M.txt"
+    pi2M=readSingleDate(path2,0,250)
+    pi4M = readSingleDate(path4, 0, 250)
+    pi8M = readSingleDate(path8, 0, 250)
+    arryFloat_2M = characterArrayProcessingRoud(pi2M, 1)
+    arryFloat_4M = characterArrayProcessingRoud(pi4M, 1)
+    arryFloat_8M = characterArrayProcessingRoud(pi8M, 1)
+    fre2M = frequencyCount(arryFloat_2M)
+    fre4M = frequencyCount(arryFloat_4M)
+    fre8M = frequencyCount(arryFloat_8M)
+    fre2M = sortDic(fre2M)
+    fre4M = sortDic(fre4M)
+    fre8M = sortDic(fre8M)
+    fre2M = xLableprocessing(fre2M)
+    fre4M = xLableprocessing(fre4M)
+    fre8M = xLableprocessing(fre8M)
+    writePath="ali\\"
+    writeFreDate(fre2M, writePath, "fre2M.txt")
+    writeFreDate(fre4M, writePath, "fre4M.txt")
+    writeFreDate(fre8M, writePath, "fre8M.txt")
 
-
+#doFre()

@@ -1,7 +1,7 @@
 import mathModule as myMathTool
 import VMMoudule as myVMtool
 import DataPro as mydataPro
-import queue as que
+
 
 
 class CPAVE():
@@ -31,7 +31,7 @@ class CPAVE():
             tempPExTask = tempVMinstance.taskRunTimeWithAve(taskType=self.taskTypeArr[taskID])
             tempMS = tempPstart + tempPRuntime - startTime  # 关键路径makespan
             tempSP = tempPExTask * tempVMinstance.VMDATA["price"]  # 关键路径花费
-            if (tempMS < self.deadLine*1.2 and tempSP < minSP):
+            if (tempMS < self.deadLine and tempSP < minSP):
                 vmInstance = tempVMinstance
                 minSP = tempSP
         if (minSP == float("inf")):
@@ -61,7 +61,7 @@ class CPAVE():
                 tempPExTask=tempVMinstance.taskRunTimeWithAve(taskType=self.taskTypeArr[taskID])
                 tempMS = tempPstart + tempPRuntime-startTime#关键路径makespan
                 tempSP=tempPExTask* tempVMinstance.VMDATA["price"]#关键路径花费
-                if (tempMS < self.deadLine*1.2 and  tempSP < minSP):
+                if (tempMS < self.deadLine and  tempSP < minSP):
                     vmInstance = tempVMinstance
                     minSP = tempSP
             if (minSP == float("inf")):
@@ -165,18 +165,20 @@ class CPAVE():
             self.taskListAssistant.taskDetailsList[i].print()
         return self.vmPool, self.taskListAssistant
 
-VMDATAS=mydataPro.getVMDATAS()
-dag,transTimeArr=myMathTool.getXMLtoDag("Montage24.xml",24)
-taskTypeArr=[1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3]
-Deadline=120
-my=CPAVE(dag,transTimeArr,taskTypeArr,Deadline,VMDATAS)
-#print(VMDATAS[0]["avepi4M"],VMDATAS[0]["avepi8M"],VMDATAS[1]["avepi4M"],VMDATAS[1]["avepi8M"],VMDATAS[2]["avepi4M"],VMDATAS[2]["avepi8M"])
-vmpool,tasklist=my.start(0)
+def CPDETEST():
+    VMDATAS = mydataPro.getVMDATAS()
+    dag, transTimeArr = myMathTool.getXMLtoDag("Montage24.xml", 24)
+    taskTypeArr = [1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3]
+    Deadline = 145
+    my = CPAVE(dag, transTimeArr, taskTypeArr, Deadline, VMDATAS)
+    vmpool, tasklist = my.start(0)
 
-# VMDATAS=mydataPro.getVMDATAS()
-# dag=[[0,1,1,0],[0,0,0,1],[0,0,0,1],[0,0,0,0]]
-# transTimeArr=[[0,1,1,0],[0,0,0,1],[0,0,0,1],[0,0,0,0]]
-# taskTypeArr=[1,2,3,1]
-# Deadline=100
-# my=CPAVE(dag,transTimeArr,taskTypeArr,Deadline,VMDATAS)
-# vmpool,tasklist=my.start(0)
+    # VMDATAS=mydataPro.getVMDATAS()
+    # dag=[[0,1,1,0],[0,0,0,1],[0,0,0,1],[0,0,0,0]]
+    # transTimeArr=[[0,1,1,0],[0,0,0,1],[0,0,0,1],[0,0,0,0]]
+    # taskTypeArr=[1,2,3,1]
+    # Deadline=100
+    # my=CPAVE(dag,transTimeArr,taskTypeArr,Deadline,VMDATAS)
+    # vmpool,tasklist=my.start(0)
+
+CPDETEST()
